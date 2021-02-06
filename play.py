@@ -28,7 +28,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 #make super mario env
-env = gym_super_mario_bros.make("SuperMarioBros-1-1-v0")
+env = gym_super_mario_bros.make("SuperMarioBros-1-2-v0")
 env = JoypadSpace(env,[["right"],["right","A"]])
 env.reset()
 

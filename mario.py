@@ -118,13 +118,17 @@ class Mario:
         # retrieve a batch of experience from memory
 
         batch = random.sample(self.memory, self.batch_size)
-        state, next_state, action, reward, done = map(torch.tensor, zip(*batch))
-        state = torch.stack(state)
-        next_state = torch.stack(next_state)
-        action = torch.stack(action)
-        reward = torch.stack(reward)
-        done = torch.stack(done)
-        return state, next_stack, action.squeeze() ,reward.squeeze(), done.squeeze()
+        
+        state, next_state, action, reward, done = map(torch.stack, zip(*batch))
+        
+        
+        state = torch.tensor(state)
+        next_state = torch.tensor(next_state)
+        action = torch.tensor(action)
+        reward = torch.tensor(reward)
+        done = torch.tensor(done)
+        
+        return state, next_state, action.squeeze() ,reward.squeeze(), done.squeeze()
 
 
 class MarioNet(nn.Module):
@@ -233,7 +237,7 @@ class Mario(Mario):
         super().__init__(state_dim, action_dim, save_dir)
         self.burnin = 1e4       # min. experiences before training
         self.learn_every = 3    # no. of experiences between updates to Q_online
-        self.sync_every = 1e4   # no. of experiences between Q_target & Q_online sync
+        self.sync_every = 100   # no. of experiences between Q_target & Q_online sync
 
     def learn(self):
 
